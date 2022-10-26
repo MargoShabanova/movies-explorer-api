@@ -72,7 +72,7 @@ const deleteMovie = (req, res, next) => {
       if (!movie.owner.equals(req.user._id)) {
         throw new ForbiddenError();
       }
-      Movie.deleteOne(movie)
+      Movie.findByIdAndRemove(movieId)
         .then(() => {
           res.send({ data: movie });
         })
