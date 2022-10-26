@@ -62,9 +62,9 @@ const createMovie = (req, res, next) => {
 };
 
 const deleteMovie = (req, res, next) => {
-  const { movieId } = req.params;
+  const { objectId } = req.params;
 
-  Movie.findById(movieId)
+  Movie.findById(objectId)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError(MESSAGE_404);
@@ -72,7 +72,7 @@ const deleteMovie = (req, res, next) => {
       if (!movie.owner.equals(req.user._id)) {
         throw new ForbiddenError();
       }
-      Movie.findByIdAndRemove(movieId)
+      Movie.findByIdAndRemove(objectId)
         .then(() => {
           res.send({ data: movie });
         })
