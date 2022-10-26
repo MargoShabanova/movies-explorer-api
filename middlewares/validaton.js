@@ -33,7 +33,7 @@ const newMovieValidation = celebrate({
     image: Joi.string().uri().regex(pattern).required(),
     trailerLink: Joi.string().uri().regex(pattern).required(),
     thumbnail: Joi.string().uri().regex(pattern).required(),
-    movieId: Joi.string().required().hex().length(24),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
