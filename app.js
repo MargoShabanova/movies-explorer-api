@@ -32,28 +32,15 @@ app.use(errorLogger);
 
 app.use(errors());
 
-// app.use((err, req, res, next) => {
-//   const { statusCode = 500, message } = err;
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
 
-//   res
-//     .status(err.statusCode)
-//     .send({
-//       message: statusCode === 500
-//         ? 'На сервере произошла ошибка'
-//         : message,
-//     });
-//   next();
-// });
-
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-app.use((err, req, res) => {
-  res.locals.error = err;
-  const status = err.status || 500;
-  res.status(status);
-  res.render('error');
+  res
+    .status(err.statusCode)
+    .send({
+      message: statusCode === 500
+        ? 'На сервере произошла ошибка'
+        : message,
+    });
+  next();
 });
