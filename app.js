@@ -1,20 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
-// const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/not-found-err');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
+const { NODE_ENV, HOST_DB } = process.env;
 const app = express();
 
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(NODE_ENV === 'production' ? HOST_DB : 'mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
 });
 
