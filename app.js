@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const NotFoundError = require('./errors/not-found-err');
+const routes = require('./routes');
 
 const { PORT = 3000 } = process.env;
 const { NODE_ENV, HOST_DB } = process.env;
@@ -22,7 +23,7 @@ app.listen(PORT);
 
 app.use(requestLogger);
 
-app.use('/', require('./routes'));
+app.use('/api', routes);
 
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
