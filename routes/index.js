@@ -13,7 +13,9 @@ router.post('/signout', (req, res) => {
   res.clearCookie('jwt').send({ message: 'Bye' });
 });
 
-router.use('/users', auth, routerUsers);
-router.use('/movies', auth, routerMovies);
+router.use(auth);
+
+router.use('/users', routerUsers);
+router.use('/movies', routerMovies);
 
 module.exports = router;
