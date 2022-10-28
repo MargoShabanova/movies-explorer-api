@@ -10,14 +10,12 @@ router.post('/signin', signinValidation, login);
 
 router.post('/signup', signupValidation, createUser);
 
-router.use(auth);
-
-router.post('/signout', (req, res) => {
+router.post('/signout', auth, (req, res) => {
   res.clearCookie('jwt').send({ message: 'Bye' });
 });
 
-router.use('/users', routerUsers);
-router.use('/movies', routerMovies);
+router.use('/users', auth, routerUsers);
+router.use('/movies', auth, routerMovies);
 
 router.use((req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
