@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const NotFoundError = require('./errors/not-found-err');
+const { DB_URL } = require('./utils/constants');
 const routes = require('./routes');
-const { limiter } = require('./utils/constants');
+const { limiter } = require('./middlewares/rateLimiter');
 
 const { PORT = 3000 } = process.env;
 const { NODE_ENV, HOST_DB } = process.env;
@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(NODE_ENV === 'production' ? HOST_DB : 'mongodb://localhost:27017/moviesdb', {
+mongoose.connect(NODE_ENV === 'production' ? HOST_DB : DB_URL, {
   useNewUrlParser: true,
 });
 
@@ -28,10 +28,6 @@ app.listen(PORT);
 app.use(requestLogger);
 
 app.use('/', routes);
-
-app.use('*', (req, res, next) => {
-  next(new NotFoundError('Страница не найдена'));
-});
 
 app.use(errorLogger);
 

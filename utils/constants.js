@@ -1,10 +1,7 @@
-const rateLimit = require('express-rate-limit');
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
+const DB_URL = 'mongodb://localhost:27017/moviesdb';
+const SECRET_KEY = 'some-secret-key';
 
 module.exports = {
-  limiter,
+  DB_URL,
+  SECRET_KEY,
 };
