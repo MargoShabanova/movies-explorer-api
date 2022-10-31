@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
-const ColflictError = require('../errors/conflict-err');
+const ConflictError = require('../errors/conflict-err');
 
 const MESSAGE_404 = 'Пользователь не найден.';
 
@@ -35,7 +35,7 @@ const createUser = (req, res, next) => {
         return;
       }
       if (err.code === 11000) {
-        next(new ColflictError());
+        next(new ConflictError());
         return;
       }
       next(err);
@@ -94,6 +94,10 @@ const updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError());
+        return;
+      }
+      if (err.code === 1100) {
+        next(new ConflictError());
         return;
       }
       next(err);
