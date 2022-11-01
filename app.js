@@ -16,6 +16,7 @@ const { PORT = 3000 } = process.env;
 const { NODE_ENV, HOST_DB } = process.env;
 const app = express();
 
+app.use(requestLogger);
 app.use(limiter);
 app.use(helmet());
 app.use(cookieParser());
@@ -27,8 +28,6 @@ mongoose.connect(NODE_ENV === 'production' ? HOST_DB : DB_URL, {
 });
 
 app.listen(PORT);
-
-app.use(requestLogger);
 
 app.use('/', routes);
 

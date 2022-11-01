@@ -2,8 +2,11 @@ const Movie = require('../models/movie');
 const BadRequestError = require('../errors/bad-request-err');
 const ForbiddenError = require('../errors/forbidden-err');
 const NotFoundError = require('../errors/not-found-err');
-
-const MESSAGE_404 = 'Фильм не найден.';
+const {
+  BAD_REQUEST_ERROR_MESSAGE,
+  MOVIE_NOT_FOUND_ERROR_MESSAGE,
+  FORBIDDEN_ERROR_MESSAGE,
+} = require('../utils/constants');
 
 const getUserMovies = (req, res, next) => {
   Movie.find({ ...req.body, owner: req.user._id }).sort({ createdAt: -1 })
@@ -12,7 +15,7 @@ const getUserMovies = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError());
+        next(new BadRequestError(BAD_REQUEST_ERROR_MESSAGE));
         return;
       }
       next(err);
@@ -54,7 +57,7 @@ const createMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError());
+        next(new BadRequestError(BAD_REQUEST_ERROR_MESSAGE));
         return;
       }
       next(err);
@@ -65,24 +68,24 @@ const deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError(MESSAGE_404);
+        throw new NotFoundError(MOVIE_NOT_FOUND_ERROR_MESSAGE);
       }
       if (!movie.owner.equals(req.user._id)) {
-        throw new ForbiddenError();
+        throw new ForbiddenError(FORBIDDEN_ERROR_MESSAGE);
       }
       Movie.findByIdAndRemove(req.params.movieId)
         .then(() => {
           res.send({ data: movie });
         })
-        .catch((err) => {
-          if (err.name === 'CastError') {
-            next(new BadRequestError());
-            return;
-          }
-          next(err);
-        });
+        .catch(next);
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new BadRequestError(BAD_REQUEST_ERROR_MESSAGE));
+        return;
+      }
+      next(err);
+    });
 };
 
 module.exports = {

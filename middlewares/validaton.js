@@ -3,7 +3,7 @@ const { pattern } = require('../utils/pattern');
 
 const signupValidation = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().min(2).max(30).required(),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
@@ -19,7 +19,7 @@ const signinValidation = celebrate({
 const updateUserValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
-    email: Joi.string().required(),
+    email: Joi.string().required().email(),
   }),
 });
 

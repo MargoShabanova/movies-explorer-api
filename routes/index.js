@@ -5,6 +5,7 @@ const routerUsers = require('./users');
 const routerMovies = require('./movies');
 const auth = require('../middlewares/auth');
 const NotFoundError = require('../errors/not-found-err');
+const { PAGE_NOT_FOUND_ERROR_MESSAGE } = require('../utils/constants');
 
 router.post('/signin', signinValidation, login);
 
@@ -20,7 +21,7 @@ router.use('/users', routerUsers);
 router.use('/movies', routerMovies);
 
 router.use('*', (req, res, next) => {
-  next(new NotFoundError('Страница не найдена'));
+  next(new NotFoundError(PAGE_NOT_FOUND_ERROR_MESSAGE));
 });
 
 module.exports = router;

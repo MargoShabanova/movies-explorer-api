@@ -6,8 +6,11 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
 const ConflictError = require('../errors/conflict-err');
-
-const MESSAGE_404 = 'Пользователь не найден.';
+const {
+  BAD_REQUEST_ERROR_MESSAGE,
+  CONFLICT_ERROR_MESSAGE,
+  USER_NOT_FOUND_ERROR_MESSAGE,
+} = require('../utils/constants');
 
 const createUser = (req, res, next) => {
   const {
@@ -31,11 +34,11 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError());
+        next(new BadRequestError(BAD_REQUEST_ERROR_MESSAGE));
         return;
       }
       if (err.code === 11000) {
-        next(new ConflictError());
+        next(new ConflictError(CONFLICT_ERROR_MESSAGE));
         return;
       }
       next(err);
@@ -86,18 +89,18 @@ const updateUser = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        next(new NotFoundError(MESSAGE_404));
+        next(new NotFoundError(USER_NOT_FOUND_ERROR_MESSAGE));
         return;
       }
       res.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
-        next(new BadRequestError());
+        next(new BadRequestError(BAD_REQUEST_ERROR_MESSAGE));
         return;
       }
       if (err.code === 1100) {
-        next(new ConflictError());
+        next(new ConflictError(CONFLICT_ERROR_MESSAGE));
         return;
       }
       next(err);
