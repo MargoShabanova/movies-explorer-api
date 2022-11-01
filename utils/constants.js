@@ -9,7 +9,9 @@ const MOVIE_NOT_FOUND_ERROR_MESSAGE = 'Фильм не найден.';
 const PAGE_NOT_FOUND_ERROR_MESSAGE = 'Страница не найдена';
 const UNAUTHORIZED_ERROR_MESSAGE = 'Необходима авторизация.';
 const INTERNAL_SERVER_ERROR_MESSAGE = 'На сервере произошла ошибка';
-const INVALID_DATA_ERROR_MESSAGE = 'Неправильные почта или пароль';
+const INVALID_USER_DATA_ERROR_MESSAGE = 'Неправильные почта или пароль';
+const INVALID_URL_ERROR_MESSAGE = 'Введите корректный URL';
+const INVALID_EMAIL_ERROR_MESSAGE = 'Введите корректный Email';
 
 module.exports = {
   DB_URL,
@@ -22,5 +24,7 @@ module.exports = {
   PAGE_NOT_FOUND_ERROR_MESSAGE,
   UNAUTHORIZED_ERROR_MESSAGE,
   INTERNAL_SERVER_ERROR_MESSAGE,
-  INVALID_DATA_ERROR_MESSAGE,
+  INVALID_USER_DATA_ERROR_MESSAGE,
+  INVALID_URL_ERROR_MESSAGE,
+  INVALID_EMAIL_ERROR_MESSAGE,
 };
