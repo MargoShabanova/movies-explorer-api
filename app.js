@@ -20,8 +20,7 @@ const app = express();
 const allowedCors = [
   // 'https://mesto-react.nomoredomains.icu',
   // 'http://mesto-react.nomoredomains.icu',
-  'https://localhost:3000',
-  'http://localhost:3000',
+  'localhost:3000',
 ];
 
 const corsOptionsDelegate = (req, callback) => {
