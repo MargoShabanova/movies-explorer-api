@@ -13,7 +13,7 @@ const routes = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { limiter } = require('./middlewares/rateLimiter');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 const { NODE_ENV, HOST_DB } = process.env;
 const app = express();
 
