@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
@@ -12,9 +13,28 @@ const routes = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
 const { limiter } = require('./middlewares/rateLimiter');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const { NODE_ENV, HOST_DB } = process.env;
 const app = express();
+
+const allowedCors = [
+  // 'https://mesto-react.nomoredomains.icu',
+  // 'http://mesto-react.nomoredomains.icu',
+  'https://localhost:3000',
+  'http://localhost:3000',
+];
+
+const corsOptionsDelegate = (req, callback) => {
+  let corsOptions;
+  if (allowedCors.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true, credentials: true };
+  } else {
+    corsOptions = { origin: false, credentials: true };
+  }
+  callback(null, corsOptions);
+};
+
+app.use(cors(corsOptionsDelegate));
 
 app.use(requestLogger);
 app.use(limiter);
