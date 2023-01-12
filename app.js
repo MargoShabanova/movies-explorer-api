@@ -18,9 +18,9 @@ const { NODE_ENV, HOST_DB } = process.env;
 const app = express();
 
 const allowedCors = [
-  // 'https://mesto-react.nomoredomains.icu',
-  // 'http://mesto-react.nomoredomains.icu',
-  'localhost:3000',
+  'https://diploma.margosha.nomoredomains.club',
+  'http://diploma.margosha.nomoredomains.club',
+  'http://localhost:3000',
 ];
 
 const corsOptionsDelegate = (req, callback) => {
